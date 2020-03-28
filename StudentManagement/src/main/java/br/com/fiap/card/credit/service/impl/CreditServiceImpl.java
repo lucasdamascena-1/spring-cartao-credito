@@ -5,61 +5,71 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import br.com.fiap.card.credit.dto.CreateStudentDTO;
-import br.com.fiap.card.credit.dto.StudentDTO;
+import br.com.fiap.card.credit.dto.CreateCreditCardDTO;
+import br.com.fiap.card.credit.dto.CreditCardDTO;
 import br.com.fiap.card.credit.dto.StudentNameDTO;
-import br.com.fiap.card.credit.service.CreditService;
+import br.com.fiap.card.credit.entity.CreditCard;
+import br.com.fiap.card.credit.repository.CreditCardRepository;
+import br.com.fiap.card.credit.service.CreditCardService;
 
-public class CreditServiceImpl implements CreditService {
+@Service
+public class CreditServiceImpl implements CreditCardService {
 
-	private List<StudentDTO> studentList;
+	private CreditCardRepository creditCardRepository;
 
-	public CreditServiceImpl() {
-
-		studentList = new ArrayList<>();
-
-		studentList.add(new StudentDTO("3095564100-11", "AARON FELIPE GRASSMANN"));
-
-		studentList.add(new StudentDTO("8610833160-26", "AARON PAPA DE MORAIS"));
-
-		studentList.add(new StudentDTO("1494778500-35", "ABNER GALLILEI MOREIRA BORGES"));
-
-		studentList.add(new StudentDTO("1209154500-34", "BRUNO DEYVID ALVES DE LIMA BARRETO"));
+	public CreditServiceImpl(CreditCardRepository creditCardRepository) {
+		this.creditCardRepository = creditCardRepository;
 	}
 
 	@Override
-	public List<StudentDTO> findAll(String name) {
-		return studentList.stream()
-				.filter(studentDTO -> name == null || studentDTO.getName().startsWith(name.toUpperCase()))
-				.collect(Collectors.toList());
+	public List<CreditCardDTO> findAll(String name) {
+
+		List<CreditCard> cardList = new ArrayList<CreditCard>();
+
+		if (name == null) {
+			cardList = creditCardRepository.findAll();
+		} /*else {
+			cardList = creditCardRepository.findAllByInitial(name);
+		}*/
+
+		return cardList.stream().map(CreditCardDTO::new).collect(Collectors.toList());
 	}
 
 	@Override
-	public StudentDTO findById(String identity) {
-		return studentList.stream().filter(studentDTO -> studentDTO.getIdentity().equals(identity)).findFirst()
+	public CreditCardDTO findById(String identification) {
+		return saveAndGetCreditCardDTO(getCreditCard(identification));
+	}
+
+	private CreditCard getCreditCard(String identification) {
+		return creditCardRepository.findById(identification)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 
 	@Override
-	public StudentDTO create(CreateStudentDTO createStudentDTO) {
-		StudentDTO studentDTO = new StudentDTO(createStudentDTO);
-		studentList.add(studentDTO);
-		return studentDTO;
+	public CreditCardDTO create(CreateCreditCardDTO createCreditCardDTO) {
+		CreditCard creditCard = new CreditCard(createCreditCardDTO);
+		return saveAndGetCreditCardDTO(creditCard);
+	}
+
+	private CreditCardDTO saveAndGetCreditCardDTO(CreditCard creditCard) {
+		CreditCard savedCreditCard = creditCardRepository.save(creditCard);
+		return new CreditCardDTO(savedCreditCard);
 	}
 
 	@Override
-	public StudentDTO update(String identity, StudentNameDTO studentNameDTO) {
-		StudentDTO studentDTO = findById(identity);
-		studentDTO.setName(studentNameDTO.getName());
-		return studentDTO;
+	public CreditCardDTO update(String identification, StudentNameDTO studentNameDTO) {
+		CreditCard creditCard = getCreditCard(identification);
+		creditCard.setStudentName(studentNameDTO.getName());
+
+		return saveAndGetCreditCardDTO(creditCard);
 	}
 
 	@Override
-	public void delete(String identity) {
-		StudentDTO studentDTO = findById(identity);
-		studentList.remove(studentDTO);
+	public void delete(String identification) {
+		CreditCard creditCard = getCreditCard(identification);
+		creditCardRepository.delete(creditCard);
 	}
-
 }

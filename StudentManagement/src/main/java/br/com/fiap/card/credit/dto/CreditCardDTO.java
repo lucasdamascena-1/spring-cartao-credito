@@ -1,35 +1,42 @@
 package br.com.fiap.card.credit.dto;
 
-public class StudentDTO {
+import br.com.fiap.card.credit.entity.CreditCard;
 
-	private String identity;
-	private String name;
+public class CreditCardDTO {
 
-	public StudentDTO(String identity, String name) {
+	private String identification;
+	private String studentName;
+
+	public CreditCardDTO(String identification, String studentName) {
 		super();
-		this.identity = identity;
-		this.name = name;
+		this.identification = identification;
+		this.studentName = studentName;
 	}
 
-	public StudentDTO(CreateStudentDTO createStudentDTO) {
+	public CreditCardDTO(CreateCreditCardDTO createCreditCardDTO) {
 		super();
-		this.identity = createStudentDTO.getIdentity();
-		this.name = createStudentDTO.getName();
+		this.identification = createCreditCardDTO.getIdentification();
+		this.studentName = createCreditCardDTO.getStudentName();
 	}
 
-	public String getIdentity() {
-		return identity;
+	public CreditCardDTO(CreditCard creditCard) {
+		this.identification = creditCard.getIdentification();
+		this.studentName = creditCard.getStudentName();
 	}
 
-	public void setIdentity(String identity) {
-		this.identity = identity;
+	public String getIdentification() {
+		return identification;
 	}
 
-	public String getName() {
-		return name;
+	public void setIdentification(String identification) {
+		this.identification = identification;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public String getStudentName() {
+		return studentName;
+	}
+
+	public void setStudentName(String studentName) {
+		this.studentName = studentName;
 	}
 }

@@ -2,19 +2,19 @@ package br.com.fiap.card.credit.service;
 
 import java.util.List;
 
-import br.com.fiap.card.credit.dto.CreateStudentDTO;
-import br.com.fiap.card.credit.dto.StudentDTO;
+import br.com.fiap.card.credit.dto.CreateCreditCardDTO;
+import br.com.fiap.card.credit.dto.CreditCardDTO;
 import br.com.fiap.card.credit.dto.StudentNameDTO;
 
-public interface CreditService {
-	
-	List<StudentDTO> findAll(String name);
+public interface CreditCardService {
 
-	StudentDTO findById(String Identity);
+	List<CreditCardDTO> findAll(String name);
 
-	StudentDTO create(CreateStudentDTO createStudentDTO);
+	CreditCardDTO findById(String identity);
 
-	StudentDTO update(String identity, StudentNameDTO studentNameDTO);
+	CreditCardDTO create(CreateCreditCardDTO createCreditCardDTO);
+
+	CreditCardDTO update(String identity, StudentNameDTO studentNameDTO);
 
 	void delete(String identity);
 }

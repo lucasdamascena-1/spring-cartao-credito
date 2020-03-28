@@ -1,23 +1,23 @@
 package br.com.fiap.card.credit.dto;
 
-public class CreateStudentDTO {
+public class CreateCreditCardDTO {
 
-	private String identity;
-	private String name;
+	private String identification;
+	private String studentName;
 
-	public String getIdentity() {
-		return identity;
+	public String getIdentification() {
+		return identification;
 	}
 
-	public void setIdentity(String identity) {
-		this.identity = identity;
+	public void setIdentification(String identification) {
+		this.identification = identification;
 	}
 
-	public String getName() {
-		return name;
+	public String getStudentName() {
+		return studentName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setStudentName(String studentName) {
+		this.studentName = studentName;
 	}
 }

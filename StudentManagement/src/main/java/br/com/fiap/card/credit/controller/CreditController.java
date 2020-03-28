@@ -16,39 +16,39 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.card.credit.dto.CreateStudentDTO;
-import br.com.fiap.card.credit.dto.StudentDTO;
+import br.com.fiap.card.credit.dto.CreateCreditCardDTO;
+import br.com.fiap.card.credit.dto.CreditCardDTO;
 import br.com.fiap.card.credit.dto.StudentNameDTO;
-import br.com.fiap.card.credit.service.CreditService;
+import br.com.fiap.card.credit.service.CreditCardService;
 
 @RestController
 @RequestMapping("students")
 public class CreditController {
 
-	private final CreditService service;
+	private final CreditCardService service;
 
-	public CreditController(CreditService service) {
+	public CreditController(CreditCardService service) {
 		this.service = service;
 	}
 
 	@GetMapping
-	public List<StudentDTO> getAll(@RequestParam(required = false) String name) {
+	public List<CreditCardDTO> getAll(@RequestParam(required = false) String name) {
 		return service.findAll(name);
 	}
 
 	@GetMapping("{identity}")
-	public StudentDTO findById(@PathVariable String identity) {
+	public CreditCardDTO findById(@PathVariable String identity) {
 		return findById(identity);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public StudentDTO create(@RequestBody @Valid CreateStudentDTO createStudentDTO) {
-		return service.create(createStudentDTO);
+	public CreditCardDTO create(@RequestBody @Valid CreateCreditCardDTO createCreditCardDTO) {
+		return service.create(createCreditCardDTO);
 	}
 
 	@PatchMapping("{identity}")
-	public StudentDTO update(@PathVariable String identity, @RequestBody StudentNameDTO studentNameDTO) {
+	public CreditCardDTO update(@PathVariable String identity, @RequestBody StudentNameDTO studentNameDTO) {
 		return service.update(identity, studentNameDTO);
 	}
 
