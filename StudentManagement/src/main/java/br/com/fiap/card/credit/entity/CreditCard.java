@@ -14,7 +14,7 @@ public class CreditCard {
 	@Id
 	private String identification;
 
-	@Column
+	@Column(name="Student")
 	private String studentName;
 
 	public CreditCard() {

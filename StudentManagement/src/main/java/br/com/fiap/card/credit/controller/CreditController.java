@@ -36,9 +36,9 @@ public class CreditController {
 		return service.findAll(name);
 	}
 
-	@GetMapping("{identity}")
-	public CreditCardDTO findById(@PathVariable String identity) {
-		return findById(identity);
+	@GetMapping("{identification}")
+	public CreditCardDTO findById(@PathVariable String identification) {
+		return service.findById(identification);
 	}
 
 	@PostMapping
@@ -47,13 +47,13 @@ public class CreditController {
 		return service.create(createCreditCardDTO);
 	}
 
-	@PatchMapping("{identity}")
-	public CreditCardDTO update(@PathVariable String identity, @RequestBody StudentNameDTO studentNameDTO) {
-		return service.update(identity, studentNameDTO);
+	@PatchMapping("{identification}")
+	public CreditCardDTO update(@PathVariable String identification, @RequestBody StudentNameDTO studentNameDTO) {
+		return service.update(identification, studentNameDTO);
 	}
 
-	@DeleteMapping("{identity}")
-	public void delete(@PathVariable String identity) {
-		service.delete(identity);
+	@DeleteMapping("{identification}")
+	public void delete(@PathVariable String identification) {
+		service.delete(identification);
 	}
 }
