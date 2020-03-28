@@ -1,8 +1,6 @@
 package br.com.fiap.card.credit.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -17,64 +15,45 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.card.credit.dto.CreateStudentDTO;
 import br.com.fiap.card.credit.dto.StudentDTO;
 import br.com.fiap.card.credit.dto.StudentNameDTO;
+import br.com.fiap.card.credit.service.CreditService;
 
 @RestController
 @RequestMapping("students")
 public class CreditController {
 
-	private List<StudentDTO> studentList;
+	private final CreditService service;
 
-	public CreditController() {
-
-		studentList = new ArrayList<>();
-
-		studentList.add(new StudentDTO("3095564100-11", "AARON FELIPE GRASSMANN"));
-
-		studentList.add(new StudentDTO("8610833160-26", "AARON PAPA DE MORAIS"));
-
-		studentList.add(new StudentDTO("1494778500-35", "ABNER GALLILEI MOREIRA BORGES"));
-
-		studentList.add(new StudentDTO("1209154500-34", "BRUNO DEYVID ALVES DE LIMA BARRETO"));
-
+	public CreditController(CreditService service) {
+		this.service = service;
 	}
 
 	@GetMapping
 	public List<StudentDTO> getAll(@RequestParam(required = false) String name) {
-		return studentList.stream()
-				.filter(studentDTO -> name == null || studentDTO.getName().startsWith(name.toUpperCase()))
-				.collect(Collectors.toList());
+		return service.findAll(name);
 	}
 
 	@GetMapping("{identity}")
 	public StudentDTO findById(@PathVariable String identity) {
-
-		return studentList.stream().filter(studentDTO -> studentDTO.getIdentity().equals(identity)).findFirst()
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		return findById(identity);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public StudentDTO create(@RequestBody @Valid CreateStudentDTO createStudentDTO) {
-		StudentDTO studentDTO = new StudentDTO(createStudentDTO);
-		studentList.add(studentDTO);
-		return studentDTO;
+		return service.create(createStudentDTO);
 	}
 
 	@PatchMapping("{identity}")
-	public StudentDTO update(@PathVariable String identity, @RequestBody StudentNameDTO studentIdentityDTO) {
-		StudentDTO studentDTO = findById(identity);
-		studentDTO.setName(studentIdentityDTO.getName());
-		return studentDTO;
+	public StudentDTO update(@PathVariable String identity, @RequestBody StudentNameDTO studentNameDTO) {
+		return service.update(identity, studentNameDTO);
 	}
 
 	@DeleteMapping("{identity}")
 	public void delete(@PathVariable String identity) {
-		StudentDTO studentDTO = findById(identity);
-		studentList.remove(studentDTO);
+		service.delete(identity);
 	}
 }
