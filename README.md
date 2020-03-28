@@ -78,13 +78,13 @@ http://localhost:8081/h2/
 - Utilizamos este repositório como forma de versionamento do projeto;
 - Na aplicação existe um plugin chamado FLYWAY útil para versionamento de Base da Dados. Para melhor compreensão é sugerido a leitura de sua documentação.
 
-## Authors
+## Autores
 
 * **Guilherme Almeida** - (https://github.com/guiarese)
 * **Henrique MLaker** - (https://github.com/henriquemlaker)
 * **Lucas Damascena** - (https://github.com/lucasdamascena)
 
-## License
+## Licença
 
 * **GNU General Public License (GPL)**
 
