@@ -8,7 +8,7 @@ import br.com.fiap.card.credit.dto.StudentNameDTO;
 
 public interface CreditCardService {
 
-	List<CreditCardDTO> findAll(String name);
+	List<CreditCardDTO> findAll();
 
 	CreditCardDTO findById(String identity);
 

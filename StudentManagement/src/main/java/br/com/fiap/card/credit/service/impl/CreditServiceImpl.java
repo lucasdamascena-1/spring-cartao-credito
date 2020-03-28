@@ -24,7 +24,7 @@ public class CreditServiceImpl implements CreditCardService {
 	}
 
 	@Override
-	public List<CreditCardDTO> findAll(String studentName) {
+	public List<CreditCardDTO> findAll() {
 		return creditCardRepository.findAll().stream().map(CreditCardDTO::new).collect(Collectors.toList());
 	}
 
