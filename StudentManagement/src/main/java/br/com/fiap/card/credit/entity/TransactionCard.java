@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import br.com.fiap.card.credit.dto.CreateCreditCardDTO;
 import br.com.fiap.card.credit.dto.TransactionCardDTO;
 
 @Entity
@@ -55,6 +56,10 @@ public class TransactionCard {
     public TransactionCard() {
     	
     }
+
+	public TransactionCard(CreateCreditCardDTO createCreditCardDTO) {
+		// TODO Auto-generated constructor stub
+	}
 
 	public int getOperationId() {
 		return operationId;

@@ -32,15 +32,20 @@ public class TransactionCardServiceimpl implements TransactionCardService{
 
 	@Override
 	public TransactionCardDTO findById(int id) {
-		return saveAndGetTransactionCardDTO(getDetailCard(id));
+		return saveAndGetDetailCardDTO(getDetailCard(id));
 	}
+
 	@Override
-	private TransactionCardDTO saveAndGetDetailCardDTO(TransactionCard transactionCard) {
-		TransactionCard savedDetailCard = transactionCardRepository.save(transactionCard);
+	public TransactionCardDTO create(CreateCreditCardDTO createCreditCardDTO) {
+		TransactionCard detailCard = new TransactionCard(createCreditCardDTO);
+		return saveAndGetDetailCardDTO(detailCard);
+	}
+
+	private TransactionCardDTO saveAndGetDetailCardDTO(TransactionCard detailCard) {
+		TransactionCard savedDetailCard = transactionCardRepository.save(detailCard);
 		return new TransactionCardDTO(savedDetailCard);
 	}
 	
-	@Override
 	private TransactionCard getDetailCard(int id) {
 		return transactionCardRepository.findById(id)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
