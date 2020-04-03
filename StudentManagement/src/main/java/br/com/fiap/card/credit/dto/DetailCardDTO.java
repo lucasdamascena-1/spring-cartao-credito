@@ -1,30 +1,31 @@
 package br.com.fiap.card.credit.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import br.com.fiap.card.credit.entity.TransactionCard;;
+import br.com.fiap.card.credit.entity.DetailCard;
 
-public class TransactionCardDTO {
+public class DetailCardDTO {
 
 	private int operationId;
 	private String studentId;
 	private String descriptionOperation;
 	private LocalDate dateOperation;
 	private char typeOperation;
-	private float valueOperation;
+	private BigDecimal valueOperation;
 		
-	public TransactionCardDTO(TransactionCardDTO transactionCardDTO) {
-		this.operationId = transactionCardDTO.getOperationId();
-		this.studentId = transactionCardDTO.getStudentId();
-		this.descriptionOperation = transactionCardDTO.getDescriptionOperation();
-		this.dateOperation = transactionCardDTO.getDateOperation();
-		this.typeOperation = transactionCardDTO.getTypeOperation();
-		this.valueOperation = transactionCardDTO.getValueOperation();
+	public DetailCardDTO(CreateDetailCardDTO createDetailCardDTO) {
+		this.operationId = createDetailCardDTO.getOperationId();
+		this.studentId = createDetailCardDTO.getStudentId();
+		this.descriptionOperation = createDetailCardDTO.getDescriptionOperation();
+		this.dateOperation = createDetailCardDTO.getDateOperation();
+		this.typeOperation = createDetailCardDTO.getTypeOperation();
+		this.valueOperation = createDetailCardDTO.getValueOperation();
 	}
 	
-	public TransactionCardDTO(TransactionCard detailCard) {
-		this.operationId = detailCard.getOperationId();
-		this.studentId = detailCard.getStudentId();
+	public DetailCardDTO(DetailCard detailCard) {
+		this.operationId = detailCard.getId().getOperationId();
+		this.studentId = detailCard.getId().getStudentId();
 		this.descriptionOperation = detailCard.getDescriptionOperation();
 		this.dateOperation = detailCard.getDateOperation();
 		this.typeOperation = detailCard.getTypeOperation();
@@ -61,14 +62,14 @@ public class TransactionCardDTO {
 	public void setTypeOperation(char typeOperation) {
 		this.typeOperation = typeOperation;
 	}
-	public float getValueOperation() {
+	public BigDecimal getValueOperation() {
 		return valueOperation;
 	}
-	public void setValueOperation(float valueOperation) {
+	public void setValueOperation(BigDecimal valueOperation) {
 		this.valueOperation = valueOperation;
 	}
 	
-	public TransactionCardDTO() {
+	public DetailCardDTO() {
 		
 	}
 

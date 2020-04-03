@@ -43,7 +43,6 @@ public class CreditServiceImpl implements CreditCardService {
 	public CreditCardDTO update(String identification, StudentNameDTO studentNameDTO) {
 		CreditCard creditCard = getCreditCard(identification);
 		creditCard.setStudentName(studentNameDTO.getName());
-
 		return saveAndGetCreditCardDTO(creditCard);
 	}
 
