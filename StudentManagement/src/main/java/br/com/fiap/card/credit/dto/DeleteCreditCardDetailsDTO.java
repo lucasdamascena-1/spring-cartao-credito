@@ -1,6 +1,6 @@
 package br.com.fiap.card.credit.dto;
 
-public class DeleteDetailCardDTO {
+public class DeleteCreditCardDetailsDTO {
 
 	private int operationId;
 	private String studentId;

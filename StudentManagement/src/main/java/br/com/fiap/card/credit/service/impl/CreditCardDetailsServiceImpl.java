@@ -15,48 +15,49 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import br.com.fiap.card.credit.dto.CreateDetailCardDTO;
-import br.com.fiap.card.credit.dto.DeleteDetailCardDTO;
-import br.com.fiap.card.credit.dto.DetailCardDTO;
-import br.com.fiap.card.credit.entity.DetailCard;
-import br.com.fiap.card.credit.repository.DetailCardRepository;
-import br.com.fiap.card.credit.service.DetailCardService;
+import br.com.fiap.card.credit.dto.CreateCreditCardDetailsDTO;
+import br.com.fiap.card.credit.dto.DeleteCreditCardDetailsDTO;
+import br.com.fiap.card.credit.dto.CreditCardDetailsDTO;
+import br.com.fiap.card.credit.entity.CreditCardDetails;
+import br.com.fiap.card.credit.repository.CreditCardDetailsRepository;
+import br.com.fiap.card.credit.service.CreditCardDetailsService;
 
 @Service
-public class DetailCardServiceImpl implements DetailCardService {
+public class CreditCardDetailsServiceImpl implements CreditCardDetailsService {
 
-	private DetailCardRepository detailCardRepository;
+	private CreditCardDetailsRepository detailCardRepository;
 
-	public DetailCardServiceImpl(DetailCardRepository detailCardRepository) {
+	public CreditCardDetailsServiceImpl(CreditCardDetailsRepository detailCardRepository) {
 		this.detailCardRepository = detailCardRepository;
 	}
 
 	@Override
-	public DetailCardDTO create(CreateDetailCardDTO createDetailCardDTO) {
-		DetailCard detailCard = new DetailCard(createDetailCardDTO);
+	public CreditCardDetailsDTO create(CreateCreditCardDetailsDTO createDetailCardDTO) {
+		CreditCardDetails detailCard = new CreditCardDetails(createDetailCardDTO);
 		return saveAndGetDetailCardDTO(detailCard);
 	}
 
-	private DetailCardDTO saveAndGetDetailCardDTO(DetailCard detailCard) {
-		DetailCard savedDetailCard = detailCardRepository.save(detailCard);
-		return new DetailCardDTO(savedDetailCard);
+	private CreditCardDetailsDTO saveAndGetDetailCardDTO(CreditCardDetails detailCard) {
+		CreditCardDetails savedDetailCard = detailCardRepository.save(detailCard);
+		return new CreditCardDetailsDTO(savedDetailCard);
 	}
 
 	@Override
-	public List<DetailCardDTO> findAll() {
-		return detailCardRepository.findAll().stream().map(DetailCardDTO::new).collect(Collectors.toList());
+	public List<CreditCardDetailsDTO> findAll() {
+		return detailCardRepository.findAll().stream().map(CreditCardDetailsDTO::new).collect(Collectors.toList());
 	}
 
 	@Override
-	public List<DetailCardDTO> findAllByStudentId(String studentId) {
-		List<DetailCard> detailCardList;
+	public List<CreditCardDetailsDTO> findAllByStudentId(String studentId) {
+		List<CreditCardDetails> detailCardList;
 		detailCardList = detailCardRepository.findByIdStudentId(studentId);
-		return detailCardList.stream().map(DetailCardDTO::new).collect(Collectors.toList());
+		return detailCardList.stream().map(CreditCardDetailsDTO::new).collect(Collectors.toList());
 	}
 
 	@Override
-	public DetailCardDTO update(CreateDetailCardDTO createDetailCardDTO) {
-		DetailCard detailCard = getDetailCard(createDetailCardDTO.getOperationId(), createDetailCardDTO.getStudentId());
+	public CreditCardDetailsDTO update(CreateCreditCardDetailsDTO createDetailCardDTO) {
+		CreditCardDetails detailCard = getDetailCard(createDetailCardDTO.getOperationId(),
+				createDetailCardDTO.getStudentId());
 		detailCard.setDescriptionOperation(createDetailCardDTO.getDescriptionOperation());
 		detailCard.setDateOperation(createDetailCardDTO.getDateOperation());
 		detailCard.setTypeOperation(createDetailCardDTO.getTypeOperation());
@@ -64,20 +65,20 @@ public class DetailCardServiceImpl implements DetailCardService {
 		return saveAndGetDetailCardDTO(detailCard);
 	}
 
-	private DetailCard getDetailCard(int operartionId, String studentId) {
-		DetailCard detailCard;
+	private CreditCardDetails getDetailCard(int operartionId, String studentId) {
+		CreditCardDetails detailCard;
 		detailCard = detailCardRepository.findByIdOperationIdAndIdStudentId(operartionId, studentId);
 		if (detailCard == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "register not found");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Register Not Found");
 		} else {
 			return detailCard;
 		}
-
 	}
 
 	@Override
-	public void delete(DeleteDetailCardDTO deleteDetailCardDTO) {
-		DetailCard detailCard = getDetailCard(deleteDetailCardDTO.getOperationId(), deleteDetailCardDTO.getStudentId());
+	public void delete(DeleteCreditCardDetailsDTO deleteDetailCardDTO) {
+		CreditCardDetails detailCard = getDetailCard(deleteDetailCardDTO.getOperationId(),
+				deleteDetailCardDTO.getStudentId());
 		detailCardRepository.deleteByIdOperationIdAndIdStudentId(detailCard.getId().getOperationId(),
 				detailCard.getId().getStudentId());
 	}
@@ -88,17 +89,17 @@ public class DetailCardServiceImpl implements DetailCardService {
 		FileWriter filewriter = null;
 		try {
 
-			List<DetailCardDTO> txtDataList = findAllByStudentId(id);
+			List<CreditCardDetailsDTO> txtDataList = findAllByStudentId(id);
 
 			StringBuilder filecontent = new StringBuilder(
 					"ID_OPERACAO;TIPO_OPERACAO;DESCRICAO_OPERACAO;DATA_OPERACAO;VALOR_OPERACAO\n");
-			for (DetailCardDTO txt : txtDataList) {
+			for (CreditCardDetailsDTO txt : txtDataList) {
 				filecontent.append(txt.getOperationId()).append(";").append(txt.getTypeOperation()).append(";")
 						.append(txt.getDescriptionOperation()).append(";").append(txt.getDateOperation()).append(";")
 						.append(txt.getValueOperation()).append("\n");
 			}
 
-			String filename = "C:\\Users\\ADM\\Desktop\\Java\\StudentsCredits\\StudentsCredits\\txtdata.txt";
+			String filename = String.format("CreditCardUser_%s.txt", id);
 
 			filewriter = new FileWriter(filename);
 			filewriter.write(filecontent.toString());
@@ -116,13 +117,12 @@ public class DetailCardServiceImpl implements DetailCardService {
 			ResponseEntity<Object> responseEntity = ResponseEntity.ok().headers(headers).contentLength(file.length())
 					.contentType(MediaType.parseMediaType("application/txt")).body(resource);
 			return responseEntity;
+			
 		} catch (Exception e) {
-			return new ResponseEntity<>("error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>("Error Occurred", HttpStatus.INTERNAL_SERVER_ERROR);
 		} finally {
 			if (filewriter != null)
 				filewriter.close();
 		}
-
 	}
-
 }

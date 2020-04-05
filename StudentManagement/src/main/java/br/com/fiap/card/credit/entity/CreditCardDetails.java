@@ -8,14 +8,14 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import br.com.fiap.card.credit.dto.CreateDetailCardDTO;
+import br.com.fiap.card.credit.dto.CreateCreditCardDetailsDTO;
 
 @Entity
 @Table(name="tb_detail_card")
-public class DetailCard {
+public class CreditCardDetails {
 	
 	@EmbeddedId
-	private DetailCardId id;
+	private CreditCardDetailsId id;
 	
 	@Column(name="description_operation")
 	private String descriptionOperation;
@@ -29,7 +29,7 @@ public class DetailCard {
 	@Column(name="value_operation")
 	private BigDecimal valueOperation;
 
-	public DetailCard(DetailCardId id, String descriptionOperation, LocalDate dateOperation,
+	public CreditCardDetails(CreditCardDetailsId id, String descriptionOperation, LocalDate dateOperation,
 			char typeOperation, BigDecimal valueOperation) {
 		this.id = id;
 		this.descriptionOperation = descriptionOperation;
@@ -38,8 +38,8 @@ public class DetailCard {
 		this.valueOperation = valueOperation;
 	}
 	
-	public DetailCard(CreateDetailCardDTO createDetailCardDTO) {
-		DetailCardId idAux = new DetailCardId();
+	public CreditCardDetails(CreateCreditCardDetailsDTO createDetailCardDTO) {
+		CreditCardDetailsId idAux = new CreditCardDetailsId();
 		idAux.setOperationId(createDetailCardDTO.getOperationId());
 		idAux.setStudentId(createDetailCardDTO.getStudentId());
 		this.id = idAux;
@@ -49,7 +49,7 @@ public class DetailCard {
 		this.valueOperation = createDetailCardDTO.getValueOperation();
 	}
 	
-    public DetailCard() {
+    public CreditCardDetails() {
     	
     }
 
@@ -85,11 +85,11 @@ public class DetailCard {
 		this.valueOperation = valueOperation;
 	}
 
-	public DetailCardId getId() {
+	public CreditCardDetailsId getId() {
 		return id;
 	}
 
-	public void setId(DetailCardId id) {
+	public void setId(CreditCardDetailsId id) {
 		this.id = id;
 	}
 

@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class DetailCardId implements Serializable {
+public class CreditCardDetailsId implements Serializable {
     
 	/**
 	 * 
@@ -19,11 +19,11 @@ public class DetailCardId implements Serializable {
 	@Column(name="student_id", nullable = false)
 	private String studentId;
 	
-	public DetailCardId() {
+	public CreditCardDetailsId() {
 		
 	}
 
-	public DetailCardId(int operationId, String studentId) {
+	public CreditCardDetailsId(int operationId, String studentId) {
 		this.operationId = operationId;
 		this.studentId = studentId;
 	}
@@ -61,7 +61,7 @@ public class DetailCardId implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DetailCardId other = (DetailCardId) obj;
+		CreditCardDetailsId other = (CreditCardDetailsId) obj;
 		if (operationId != other.operationId)
 			return false;
 		if (studentId == null) {
