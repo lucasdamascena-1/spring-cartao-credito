@@ -7,18 +7,17 @@ public class CreditCardDTO {
 	private String identification;
 	private String studentName;
 
+	/* Default */
+	public CreditCardDTO() {
+	}
+
+	/* Create */
 	public CreditCardDTO(String identification, String studentName) {
-		super();
 		this.identification = identification;
 		this.studentName = studentName;
 	}
 
-	public CreditCardDTO(CreateCreditCardDTO createCreditCardDTO) {
-		super();
-		this.identification = createCreditCardDTO.getIdentification();
-		this.studentName = createCreditCardDTO.getStudentName();
-	}
-
+	/* Methods - Save / Update */
 	public CreditCardDTO(CreditCard creditCard) {
 		this.identification = creditCard.getIdentification();
 		this.studentName = creditCard.getStudentName();

@@ -7,9 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import br.com.fiap.card.credit.dto.CreateCreditCardDTO;
 import br.com.fiap.card.credit.dto.CreditCardDTO;
-import br.com.fiap.card.credit.dto.StudentNameDTO;
 import br.com.fiap.card.credit.entity.CreditCard;
 import br.com.fiap.card.credit.repository.CreditCardRepository;
 import br.com.fiap.card.credit.service.CreditCardService;
@@ -34,15 +32,15 @@ public class CreditServiceImpl implements CreditCardService {
 	}
 
 	@Override
-	public CreditCardDTO create(CreateCreditCardDTO createCreditCardDTO) {
+	public CreditCardDTO create(CreditCardDTO createCreditCardDTO) {
 		CreditCard creditCard = new CreditCard(createCreditCardDTO);
 		return saveAndGetCreditCardDTO(creditCard);
 	}
 
 	@Override
-	public CreditCardDTO update(String identification, StudentNameDTO studentNameDTO) {
+	public CreditCardDTO update(String identification, String studentName) {
 		CreditCard creditCard = getCreditCard(identification);
-		creditCard.setStudentName(studentNameDTO.getName());
+		creditCard.setStudentName(studentName);
 		return saveAndGetCreditCardDTO(creditCard);
 	}
 

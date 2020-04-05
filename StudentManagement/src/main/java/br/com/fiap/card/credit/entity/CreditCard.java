@@ -5,24 +5,24 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import br.com.fiap.card.credit.dto.CreateCreditCardDTO;
+import br.com.fiap.card.credit.dto.CreditCardDTO;
 
 @Entity
-@Table(name = "Student")
+@Table(name = "tb_student")
 public class CreditCard {
 
 	@Id
 	private String identification;
 
-	@Column(name="Student")
+	@Column(name = "student")
 	private String studentName;
 
 	public CreditCard() {
 	}
 
-	public CreditCard(CreateCreditCardDTO creditCardDTO) {
-		this.identification = creditCardDTO.getIdentification();
-		this.studentName = creditCardDTO.getStudentName();
+	public CreditCard(CreditCardDTO createCreditCardDTO) {
+		this.identification = createCreditCardDTO.getIdentification();
+		this.studentName = createCreditCardDTO.getStudentName();
 	}
 
 	public String getIdentification() {
