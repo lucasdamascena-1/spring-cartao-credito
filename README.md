@@ -9,7 +9,7 @@ Por favor leia o arquivo atentamente antes de iniciar qualquer tipo de ação.
 
 ### Pré-Requisitos
 
-Eclipse (Versão mínimia 2019-03);
+Eclipse (Versão mínima 2019-03);
 Web Browser (Google Chrome, Microsoft Edge, Mozilla Firefox, etc).
 
 ### Instalação
@@ -23,35 +23,73 @@ No Eclipse:
 
 ![](http://g.recordit.co/yjW5uXKND7.gif)
 
-Existe um BUG no Eclipse quando trabalha com Spring que é possível de ocorrer: Apontamento de ERRO na Primeira Linha do arquivo POM.xml
+Versões antigas do Eclipse quando trabalham com Spring podem ter um BUG: Apontamento de ERRO na Primeira Linha do arquivo POM.xml
 
 Como resolver?
-- Procure pelo Menu Help -> Install New Software 
-- Colar repositório o repositório: https://download.eclipse.org/m2e-wtp/releases/1.4/ 
-- Instalar todos os plugins 
-- Aceitar Termos
-- Reiniciar Eclipse
+* **Procure pelo Menu Help -> Install New Software**
+* **Colar repositório o repositório: https://download.eclipse.org/m2e-wtp/releases/1.4/**
+* **Instalar todos os plugins**
+* **Aceitar Termos**
+* **Reiniciar Eclipse**
 
 ## Executando os testes
 
 Como executar os testes?
 
-### Testes de ponta a ponta
+Uma das dependências adicionadas no pom.xml é o JUnit 4.12. Apesar do Eclipse possuir a library por Default, não gostaríamos que o usuário gastasse tempo configurando o ambiente.
 
-Explicar o que testam e motivo
+Então a única configuração necessária é neste momento porque por Default o Eclipse procura o JUnit 5, mas estamos o usando a biblioteca **4.12** devido o suporte a soluções ser mais completo. A tendência é que ao rodar os testes seja emitida a seguinte mensagem: **"No tests found with test runner 'JUnit 5'"**, neste caso:
+
+* **Pressione a lateral do Botão Runner;**
+* **Run Configuration;**
+* **Na Aba Tests -> Mude Test Runner: JUnit 5 para JUnit 4.**
+
+### Testes de Integração
+
+Objetivo: Relação do RestController com os componentes HTTP (GET, POST, PATCH, DELETE).
 
 ```
-Exemplo
+	@Test
+	public void returnAllStudents() throws Exception {
+		String uri = "/students/";
+		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+				.andReturn();
+
+		int status = mvcResult.getResponse().getStatus();
+		assertEquals(200, status);
+
+		String content = mvcResult.getResponse().getContentAsString();
+		CreditCard[] arrCreditCard = super.mapFromJson(content, CreditCard[].class);
+		assertTrue(arrCreditCard.length > 0);
+	}
 ```
 
-### Testes de Estilo de Codificação
+Exemplo que lista todos os estudantes cadastrados no Banco de Dados:
+* **O mvcResult recebe a String URI e comunica-se aceitando receber um valor JSON como retorno.**
+* **O código de retorno esperado pelo teste é o 200 (OK) e será comparado com o valor exibido pela URL.**
+* **Diante disso um array é montado e como o Banco de Dados está pré-preenchido então obrigatoriamente o resultado final precisa demonstrar um Array de tamanho maior que zero.**
 
-Explicar o que testam e motivo
+### Testes Unitários
+
+Camada de Persistência
 
 ```
-Exemplo
+	@Test
+	public void create() {	
+		CreateCreditCardDetailsDTO objCreditCardDetailsDTO = new CreateCreditCardDetailsDTO();
+		objCreditCardDetailsDTO.setDateOperation("08/04/2020");
+		objCreditCardDetailsDTO.setDescriptionOperation("COMPRA");
+		objCreditCardDetailsDTO.setOperationId(4);
+		objCreditCardDetailsDTO.setStudentId("3095564 200-33");
+		objCreditCardDetailsDTO.setTypeOperation('B');
+		objCreditCardDetailsDTO.setValueOperation(new BigDecimal(4000.00));
+		
+		CreditCardDetails detailCard = new CreditCardDetails(objCreditCardDetailsDTO);
+		detailCardRepository.save(detailCard);			
+	}
 ```
-
+Exemplo que cadastra o histórico de compra:
+* **Um DTO (Data Transfer Object) é montado e em seguida está sendo salvo.**
 ## Compilação
 
 A aplicação foi documentada com Swagger, então é importante visualizar quais as URLs recebem comunicação e o que é necessário para o funcionamento correto.
@@ -68,10 +106,16 @@ http://localhost:8081/h2/
 
 ## Construído com:
 
-* **[Spring Framework]** - (https://spring.io/) - (Spring Boot, Spring Data, Spring Security e Spring Batch);
+* **[Spring Framework]** - (https://spring.io/) - (Spring Boot, Spring Data e Spring Security);
 * **[Flyway]** - (https://flywaydb.org/) - Versionador da Base de Dados;
-* **[H2 Database]** - (https://www.h2database.com/html/main.html) - Base de dados;
+* **[H2 Database]** - (https://www.h2database.com/html/main.html) - Banco de Dados em Memória;
 * **[Maven]** - (https://maven.apache.org/) - Gerenciador de Dependências.
+
+## Justificativa
+
+Nossa equipe optou por H2 pela praticidade de não ser necessário ter um ambiente específico para executar essa aplicação, realmente foi uma preocupação muito grande desde o início do projeto. Temos total conhecimento que uma das grandes praticidades do Spring está na fácil alteração de Banco de Dados via propriedades.
+
+O Flyway utilizamos não somente como versionador. Foi muito útil para inicializar a carga da base com script.
 
 ## Versionamento
 
