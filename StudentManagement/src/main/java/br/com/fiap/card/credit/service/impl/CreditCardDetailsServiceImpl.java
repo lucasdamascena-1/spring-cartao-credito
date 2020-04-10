@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,7 +61,7 @@ public class CreditCardDetailsServiceImpl implements CreditCardDetailsService {
 		CreditCardDetails detailCard = getDetailCard(createDetailCardDTO.getOperationId(),
 				createDetailCardDTO.getStudentId());
 		detailCard.setDescriptionOperation(createDetailCardDTO.getDescriptionOperation());
-		detailCard.setDateOperation(createDetailCardDTO.getDateOperation());
+		detailCard.setDateOperation(StringToLocalDate(createDetailCardDTO.getDateOperation()));
 		detailCard.setTypeOperation(createDetailCardDTO.getTypeOperation());
 		detailCard.setValueOperation(createDetailCardDTO.getValueOperation());
 		return saveAndGetDetailCardDTO(detailCard);
@@ -117,12 +119,19 @@ public class CreditCardDetailsServiceImpl implements CreditCardDetailsService {
 			ResponseEntity<Object> responseEntity = ResponseEntity.ok().headers(headers).contentLength(file.length())
 					.contentType(MediaType.parseMediaType("application/txt")).body(resource);
 			return responseEntity;
-			
+
 		} catch (Exception e) {
 			return new ResponseEntity<>("Error Occurred", HttpStatus.INTERNAL_SERVER_ERROR);
 		} finally {
 			if (filewriter != null)
 				filewriter.close();
 		}
+	}
+
+	private LocalDate StringToLocalDate(String date) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate localDate = LocalDate.parse(date, formatter);
+
+		return localDate;
 	}
 }

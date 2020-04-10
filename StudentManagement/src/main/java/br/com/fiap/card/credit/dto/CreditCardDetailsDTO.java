@@ -1,8 +1,6 @@
 package br.com.fiap.card.credit.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-
 import br.com.fiap.card.credit.entity.CreditCardDetails;
 
 public class CreditCardDetailsDTO {
@@ -10,7 +8,7 @@ public class CreditCardDetailsDTO {
 	private int operationId;
 	private String studentId;
 	private String descriptionOperation;
-	private LocalDate dateOperation;
+	private String dateOperation;
 	private char typeOperation;
 	private BigDecimal valueOperation;
 
@@ -31,7 +29,7 @@ public class CreditCardDetailsDTO {
 		this.operationId = detailCard.getId().getOperationId();
 		this.studentId = detailCard.getId().getStudentId();
 		this.descriptionOperation = detailCard.getDescriptionOperation();
-		this.dateOperation = detailCard.getDateOperation();
+		this.dateOperation = detailCard.getDateOperation().toString();
 		this.typeOperation = detailCard.getTypeOperation();
 		this.valueOperation = detailCard.getValueOperation();
 	}
@@ -60,11 +58,11 @@ public class CreditCardDetailsDTO {
 		this.descriptionOperation = descriptionOperation;
 	}
 
-	public LocalDate getDateOperation() {
+	public String getDateOperation() {
 		return dateOperation;
 	}
 
-	public void setDateOperation(LocalDate dateOperation) {
+	public void setDateOperation(String dateOperation) {
 		this.dateOperation = dateOperation;
 	}
 

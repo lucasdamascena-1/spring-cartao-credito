@@ -2,6 +2,7 @@ package br.com.fiap.card.credit.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -11,22 +12,22 @@ import javax.persistence.Table;
 import br.com.fiap.card.credit.dto.CreateCreditCardDetailsDTO;
 
 @Entity
-@Table(name="tb_detail_card")
+@Table(name = "tb_detail_card")
 public class CreditCardDetails {
-	
+
 	@EmbeddedId
 	private CreditCardDetailsId id;
-	
-	@Column(name="description_operation")
+
+	@Column(name = "description_operation")
 	private String descriptionOperation;
-	
-	@Column(name="date_operation")
+
+	@Column(name = "date_operation")
 	private LocalDate dateOperation;
-	
-	@Column(name="type_operation")
+
+	@Column(name = "type_operation")
 	private char typeOperation;
-	
-	@Column(name="value_operation")
+
+	@Column(name = "value_operation")
 	private BigDecimal valueOperation;
 
 	public CreditCardDetails(CreditCardDetailsId id, String descriptionOperation, LocalDate dateOperation,
@@ -37,21 +38,21 @@ public class CreditCardDetails {
 		this.typeOperation = typeOperation;
 		this.valueOperation = valueOperation;
 	}
-	
+
 	public CreditCardDetails(CreateCreditCardDetailsDTO createDetailCardDTO) {
 		CreditCardDetailsId idAux = new CreditCardDetailsId();
 		idAux.setOperationId(createDetailCardDTO.getOperationId());
 		idAux.setStudentId(createDetailCardDTO.getStudentId());
 		this.id = idAux;
 		this.descriptionOperation = createDetailCardDTO.getDescriptionOperation();
-		this.dateOperation = createDetailCardDTO.getDateOperation();
+		this.dateOperation = StringToLocalDate(createDetailCardDTO.getDateOperation());
 		this.typeOperation = createDetailCardDTO.getTypeOperation();
 		this.valueOperation = createDetailCardDTO.getValueOperation();
 	}
-	
-    public CreditCardDetails() {
-    	
-    }
+
+	public CreditCardDetails() {
+
+	}
 
 	public String getDescriptionOperation() {
 		return descriptionOperation;
@@ -93,4 +94,10 @@ public class CreditCardDetails {
 		this.id = id;
 	}
 
+	private LocalDate StringToLocalDate(String date) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate localDate = LocalDate.parse(date, formatter);
+
+		return localDate;
+	}
 }
