@@ -32,6 +32,39 @@ Como resolver?
 * **Aceitar Termos**
 * **Reiniciar Eclipse**
 
+### Acesso aos Endpoints
+
+* A aplicação utiliza JWT (JSON Web Token) então em seu primeiro acesso é fundamental seguir o passo-a-passo:
+
+1 - Criar usuário: http://localhost:8081/users/
+
+RequestBody:
+```
+{
+	"username":"testeone",
+	"password":"1234"
+}
+```
+
+2 - Efetuar o login: http://localhost:8081/users/login
+
+```
+{
+	"username":"testeone",
+	"password":"1234"
+}
+```
+
+3- O token será apresentado como response. Copie-o.
+
+4- Antes de efetuar a chamada de qualquer funcionalidade de **students** ou **details**. Vincular a autenticação na chamada do método. 
+
+Se estiver utilizando o Postman, popule:
+```
+Type: Bearer Token 
+Token: (Colar token copiado no passo 3)
+```
+
 ## Executando os testes
 
 Como executar os testes?
