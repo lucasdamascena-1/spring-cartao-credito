@@ -33,14 +33,8 @@ public class CreditCardDetailsServiceImplTest {
 		objCreditCardDetailsDTO.setValueOperation(new BigDecimal(4000.00));
 		
 		CreditCardDetails detailCard = new CreditCardDetails(objCreditCardDetailsDTO);
-		detailCardRepository.save(detailCard);
-			
+		detailCardRepository.save(detailCard);			
 	}
-
-	/*public CreditCardDetailsDTO saveAndGetDetailCardDTO(CreditCardDetails detailCard) {
-		CreditCardDetails savedDetailCard = detailCardRepository.save(detailCard);
-		return new CreditCardDetailsDTO(savedDetailCard);
-	}*/
 
 	@Test
 	public void findAll() {
