@@ -34,7 +34,7 @@ Como resolver?
 
 ### Acesso aos Endpoints
 
-* A aplicação utiliza JWT (JSON Web Token) então em seu primeiro acesso é fundamental seguir o passo-a-passo:
+* A aplicação utiliza Bearer Token então em seu primeiro acesso é fundamental seguir o passo-a-passo:
 
 1 - Criar usuário: http://localhost:8081/users/
 
